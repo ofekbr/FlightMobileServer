@@ -20,11 +20,18 @@ namespace FlightMobileServer.Controllers
         }
 
         // POST: api/Command
+        //TODO make async
         [HttpPost]
-        public void Post(CommandController command)
+        public async Task<ActionResult> Post(Command command)
         {
-            
-            
+            try
+            {
+                var result = await _simulatorManager._outConnection.Execute(command);
+                return result;
+            }
+            catch (Exception) {
+                return BadRequest();
+            }
         }
 
     }
