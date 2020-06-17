@@ -23,6 +23,5 @@ namespace FlightMobileServer.Models
 
         [JsonPropertyName("throttle")]
         public double Throttle { set; get; }
-
     }
 }
