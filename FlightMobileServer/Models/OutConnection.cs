@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Constraints;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -28,9 +29,9 @@ namespace FlightMobileServer.Models
         {
             client.Disconnect();
         }
+
         public void SendInfo(double value, string strVal)
         {
-            // TODO: check about the ip and port - how to recieve it?
             string send = "";
             switch (strVal)
             {
@@ -59,6 +60,48 @@ namespace FlightMobileServer.Models
             client.Write(send);
         }
 
+        public double GetInfo(string strVal)
+        {
+            string send = "";
+            switch (strVal)
+            {
+                case "throttle":
+                    {
+                        send = "get /controls/engines/current-engine/throttle";
+                        break;
+                    }
+                case "elevator":
+                    {
+                        send = "get /controls/flight/elevator";
+                        break;
+                    }
+                case "rudder":
+                    {
+                        send = "get /controls/flight/rudder";
+                        break;
+                    }
+                case "aileron":
+                    {
+                        send = "get /controls/flight/aileron";
+                        break;
+                    }
+            }
+            send += "\r\n";
+            client.Write(send);
+            string value = client.Read();
+            try
+            {
+                double retValue = Double.Parse(value);
+                return retValue;
+
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+            
+        }
+
         public Task<ActionResult> Execute(Command cmd)
         {
             var asyncCommand = new AsyncCommand(cmd);
@@ -80,11 +123,20 @@ namespace FlightMobileServer.Models
                 try
                 {
                     SendInfo(command.Command.Aileron, "aileron");
+                    if (GetInfo("aileron")  != command.Command.Aileron)
+                        throw new Exception();
                     SendInfo(command.Command.Elevator, "elevator");
+                    if (GetInfo("elevator") != command.Command.Elevator)
+                        throw new Exception();
                     SendInfo(command.Command.Rudder, "rudder");
+                    if (GetInfo("rudder") != command.Command.Rudder)
+                        throw new Exception();
                     SendInfo(command.Command.Throttle, "throttle");
+                    if (GetInfo("throttle") != command.Command.Throttle)
+                        throw new Exception();
 
-                }catch(Exception)
+                }
+                catch (Exception)
                 {
                     //TODO read and check 
                     res = new BadRequestResult();
