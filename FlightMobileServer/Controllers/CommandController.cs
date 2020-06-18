@@ -20,7 +20,6 @@ namespace FlightMobileServer.Controllers
         }
 
         // POST: api/Command
-        //TODO make async
         [HttpPost]
         public async Task<ActionResult> Post(Command command)
         {
@@ -30,6 +29,20 @@ namespace FlightMobileServer.Controllers
                 return result;
             }
             catch (Exception) {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete]
+        public ActionResult Disconnect()
+        {
+            try
+            {
+                _simulatorManager._outConnection.Disconnect();
+                return Ok();
+            }
+            catch (Exception)
+            {
                 return BadRequest();
             }
         }
