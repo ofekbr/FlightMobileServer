@@ -47,9 +47,14 @@ namespace FlightMobileServer
             
             app.UseHttpsRedirection();
 
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -72,7 +77,7 @@ namespace FlightMobileServer
             {
                 _inConnection.Connect("http://localhost:5000/screenshot");
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 int f = 5;    
@@ -85,7 +90,7 @@ namespace FlightMobileServer
             var host = request.Host;
             if (request.Path.Value.Contains("screenshot"))
             {
-                var result = ContentAction(context);
+                var result = ContentAction(context).ToString();
                 return;
             } else if (request.Path.Value.Contains("command"))
             {
@@ -104,6 +109,7 @@ namespace FlightMobileServer
         {
             var response = context.HttpContext.Response;
             byte[] flightGearImage = Encoding.ASCII.GetBytes( await _inConnection.CreateRequestToServer("GET", "http://localhost:5000/screenshot"));
+            //string image = Encoding.ASCII.GetString(flightGearImage, 0, flightGearImage.Length);
             response.ContentType = "screenshot";
             await response.Body.WriteAsync(flightGearImage, 0, flightGearImage.Length);
             return response;

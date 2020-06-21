@@ -19,6 +19,7 @@ namespace FlightMobileServer.Models
         {
             _queue = new BlockingCollection<AsyncCommand>();
             client = new Client();
+            client.Write("data\n");
         }
         public void Connect(string ip, int port)
         {
