@@ -14,12 +14,15 @@ namespace FlightMobileServer.Models
     {
         private readonly BlockingCollection<AsyncCommand> _queue;
         private Client client;
+        private string ip;
+        private int port;
 
-        public OutConnection()
+        public OutConnection(string ipConf, int portConf)
         {
             _queue = new BlockingCollection<AsyncCommand>();
             client = new Client();
-            client.Write("data\n");
+            this.ip = ipConf;
+            this.port = portConf;
         }
         public void Connect(string ip, int port)
         {
@@ -92,7 +95,8 @@ namespace FlightMobileServer.Models
             string value = client.Read();
             try
             {
-                double retValue = Double.Parse(value);
+                int position = value.IndexOf("\n");
+                double retValue = Double.Parse(value.Substring(0, position));
                 return retValue;
 
             }
@@ -116,7 +120,8 @@ namespace FlightMobileServer.Models
 
         public void ProcessCommands()
         {
-            client.Connect("127.0.0.1", 5402);
+            client.Connect(this.ip, this.port);
+            client.Write("data\n");
             ActionResult res;
             foreach (AsyncCommand command in _queue.GetConsumingEnumerable())
             {

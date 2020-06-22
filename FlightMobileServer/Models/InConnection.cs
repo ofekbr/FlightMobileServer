@@ -10,13 +10,11 @@ namespace FlightMobileServer.Models
 {
     public class InConnection
     {
-        private Client client;
         public void Connect(string url)
         {
             //TODO create http get request
             //client.Connect(ip, port);
         }
-
         public async Task<string> CreateRequestToServer(string request, string url)
         {
             string strUrl = String.Format(url);
@@ -38,17 +36,6 @@ namespace FlightMobileServer.Models
             if (strResult.Length < 5)
                 return null;
             return strResult;
-        }
-
-        public void Disconnect()
-        {
-            client.Disconnect();
-        }
-        public string GetPhoto()
-        {
-            client.Write("get ?\r\n");
-            string photo = client.Read();
-            return photo;
         }
     }
 }

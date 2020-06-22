@@ -27,12 +27,16 @@ namespace FlightMobileServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<SimulatorManager>();
+            string ip = Configuration.GetValue<string>("Logging:SimulatorInfo:IP");
+            int port = Configuration.GetValue<int>("Logging:SimulatorInfo:TelnetPort");
+            SimulatorManager sm = new SimulatorManager(ip, port);
+            services.AddSingleton(sm);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            int port = Configuration.GetValue<int>("Logging:SimulatorInfo:HttpPort");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -42,7 +46,7 @@ namespace FlightMobileServer
                .AddRewrite("command", "api/command", true)
                .AddRewrite("disconnect", "api/command", true);
 
-            rewrite.Rules.Add(new CustomRule());
+            rewrite.Rules.Add(new CustomRule(port));
             app.UseRewriter(rewrite);
             
             app.UseHttpsRedirection();
@@ -68,11 +72,13 @@ namespace FlightMobileServer
     public class CustomRule : Microsoft.AspNetCore.Rewrite.IRule
     {
         private InConnection _inConnection;
-        
-        public CustomRule()
+        private int httpPort;
+
+        public CustomRule(int port)
         {
+            this.httpPort = port;
             _inConnection = new InConnection();
-            //TODO try and catch
+            // TODO: try and catch
             try
             {
                 _inConnection.Connect("http://localhost:5000/screenshot");
@@ -108,8 +114,8 @@ namespace FlightMobileServer
         public async Task<HttpResponse> ContentAction(RewriteContext context)
         {
             var response = context.HttpContext.Response;
-            byte[] flightGearImage = Encoding.ASCII.GetBytes( await _inConnection.CreateRequestToServer("GET", "http://localhost:5000/screenshot"));
-            //string image = Encoding.ASCII.GetString(flightGearImage, 0, flightGearImage.Length);
+            string url = "http://localhost:" + this.httpPort + "/screenshot";
+            byte[] flightGearImage = Encoding.ASCII.GetBytes( await _inConnection.CreateRequestToServer("GET", url));
             response.ContentType = "screenshot";
             await response.Body.WriteAsync(flightGearImage, 0, flightGearImage.Length);
             return response;

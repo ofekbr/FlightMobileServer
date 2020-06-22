@@ -9,10 +9,10 @@ namespace FlightMobileServer.Models
     {
         public InConnection _inConnection;
         public OutConnection _outConnection;
-        public SimulatorManager()
+        public SimulatorManager(string ip, int port)
         {
             _inConnection = new InConnection();
-            _outConnection = new OutConnection();
+            _outConnection = new OutConnection(ip, port);
             _outConnection.Start();
         }
     }
