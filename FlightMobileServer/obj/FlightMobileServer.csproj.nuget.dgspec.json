@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Yana Molodetsky\\source\\repos\\FlightMobileServer\\FlightMobileServer\\FlightMobileServer.csproj": {}
+    "C:\\Users\\Ofek\\Desktop\\שנה ב סמסטר ב\\תכנות מתקדם 2\\FlightMobileServer\\FlightMobileServer\\FlightMobileServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Yana Molodetsky\\source\\repos\\FlightMobileServer\\FlightMobileServer\\FlightMobileServer.csproj": {
+    "C:\\Users\\Ofek\\Desktop\\שנה ב סמסטר ב\\תכנות מתקדם 2\\FlightMobileServer\\FlightMobileServer\\FlightMobileServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Yana Molodetsky\\source\\repos\\FlightMobileServer\\FlightMobileServer\\FlightMobileServer.csproj",
+        "projectUniqueName": "C:\\Users\\Ofek\\Desktop\\שנה ב סמסטר ב\\תכנות מתקדם 2\\FlightMobileServer\\FlightMobileServer\\FlightMobileServer.csproj",
         "projectName": "FlightMobileServer",
-        "projectPath": "C:\\Users\\Yana Molodetsky\\source\\repos\\FlightMobileServer\\FlightMobileServer\\FlightMobileServer.csproj",
-        "packagesPath": "C:\\Users\\Yana Molodetsky\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Yana Molodetsky\\source\\repos\\FlightMobileServer\\FlightMobileServer\\obj\\",
+        "projectPath": "C:\\Users\\Ofek\\Desktop\\שנה ב סמסטר ב\\תכנות מתקדם 2\\FlightMobileServer\\FlightMobileServer\\FlightMobileServer.csproj",
+        "packagesPath": "C:\\Users\\Ofek\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ofek\\Desktop\\שנה ב סמסטר ב\\תכנות מתקדם 2\\FlightMobileServer\\FlightMobileServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Yana Molodetsky\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ofek\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -83,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -26,6 +26,7 @@ namespace FlightMobileServer.Models
             string strResult = null;
             using (Stream stream = responseObjGet.GetResponseStream())
             {
+                
                 StreamReader sr = new StreamReader(stream);
                 //strResult = sr.ReadToEnd();
                 strResult = await sr.ReadToEndAsync();
