@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,11 +14,18 @@ namespace FlightMobileServer.Controllers
     [Route("/screenshot")]
     public class ImageController : Controller
     {
+        private IConfiguration configuration { get; }
+        public ImageController(IConfiguration iConfig)
+        {
+            configuration = iConfig;
+        }
         // GET: api/<controller>
         [HttpGet]
         public async Task<IActionResult> Get()
-        {           
-            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://localhost:5000/screenshot");
+        {
+            string httpPort = configuration.GetValue<string>("Logging:SimulatorInfo:HttpPort");
+            string ip = configuration.GetValue<string>("Logging:SimulatorInfo:IP");
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://" + ip + ":" + httpPort + "/screenshot");
             myReq.Method = "GET";
             try
             {
