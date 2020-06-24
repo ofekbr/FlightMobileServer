@@ -10,10 +10,10 @@ namespace FlightMobileServer.Models
         public readonly InConnection _inConnection;
         public readonly OutConnection _outConnection;
         public Boolean _succesConnection;
-        public SimulatorManager()
+        public SimulatorManager(string ip, int port)
         {
             _inConnection = new InConnection();
-            _outConnection = new OutConnection("127.0.0.1", 5402);
+            _outConnection = new OutConnection(ip, port);
             StartConnection();
             
         }
