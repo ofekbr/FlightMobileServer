@@ -13,9 +13,9 @@ namespace FlightMobileServer.Models
     public class OutConnection
     {
         private readonly BlockingCollection<AsyncCommand> _queue;
-        private Client client;
-        private string ip;
-        private int port;
+        private readonly Client client;
+        private readonly string ip;
+        private readonly int port;
 
         public OutConnection(string ipConf, int portConf)
         {
@@ -115,13 +115,20 @@ namespace FlightMobileServer.Models
         }
         public void Start()
         {
+            try
+            {
+                client.Connect(this.ip, this.port);
+                client.Write("data\n");
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
             Task.Factory.StartNew(ProcessCommands);
         }
 
         public void ProcessCommands()
         {
-            client.Connect(this.ip, this.port);
-            client.Write("data\n");
             ActionResult res;
             foreach (AsyncCommand command in _queue.GetConsumingEnumerable())
             {
@@ -140,11 +147,9 @@ namespace FlightMobileServer.Models
                     SendInfo(command.Command.Throttle, "throttle");
                     if (GetInfo("throttle") != command.Command.Throttle)
                         throw new Exception();
-
                 }
                 catch (Exception)
                 {
-                    //TODO read and check 
                     res = new BadRequestResult();
                 }
 
