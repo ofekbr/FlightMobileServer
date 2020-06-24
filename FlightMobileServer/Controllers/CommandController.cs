@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FlightMobileServer.Models;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +25,13 @@ namespace FlightMobileServer.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(Command command)
         {
+            if(_simulatorManager._succesConnection == false)
+            {
+                //try to connect to simulator again
+                if(_simulatorManager.StartConnection() == false)
+                    return StatusCode(503);
+            }
+
             try
             {
                 var result = await _simulatorManager._outConnection.Execute(command);
