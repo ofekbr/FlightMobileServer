@@ -1,6 +1,13 @@
+using System;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 using FlightMobileServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,8 +41,12 @@ namespace FlightMobileServer
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            app.UseHttpsRedirection();
+
+           /* var rewrite = new RewriteOptions()
+               .AddRewrite("command", "api/command", true)
+               .AddRewrite("disconnect", "api/command", true);*/
+
+            //app.UseHttpsRedirection();
 
             app.UseDefaultFiles();
 
