@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 using System;
 using System.Collections.Concurrent;
@@ -24,6 +24,13 @@ namespace FlightMobileServer.Models
             this.ip = ipConf;
             this.port = portConf;
         }
+
+        public bool IsConnected()
+        {
+            return client.IsConnected;
+
+        }
+
         public void Connect(string ip, int port)
         {
             client.Connect(ip, port);
@@ -113,6 +120,7 @@ namespace FlightMobileServer.Models
             _queue.Add(asyncCommand);
             return asyncCommand.Task;
         }
+       
         public void Start()
         {
             try
