@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -25,13 +25,12 @@ namespace FlightMobileServer.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(Command command)
         {
-            if(_simulatorManager._succesConnection == false)
+            if (_simulatorManager._outConnection.IsConnected() == false) 
             {
-                //try to connect to simulator again
-                if(_simulatorManager.StartConnection() == false)
+                //try to connect again
+                if (_simulatorManager.StartConnection() == false)
                     return StatusCode(503);
             }
-
             try
             {
                 var result = await _simulatorManager._outConnection.Execute(command);
